@@ -29,14 +29,13 @@ export default class HelperFnsPlugin extends Plugin {
     this.addCommand({
       id: "helperfns-reload-scripts",
       name: "HelperFns: Reload scripts",
-      callback: () => this.loadHelperFunctions(),
+      callback: () => this.loadFns(),
     });
 
     this.addSettingTab(new HelperFnsSettingsTab(this.app, this));
-    await this.loadHelperFunctions();
   }
 
-  async loadHelperFunctions() {
+  async loadFns() {
     this.fns = await this.loader.loadFunctions(
       this.app,
       this.settings.scriptFolder
@@ -83,7 +82,7 @@ class HelperFnsSettingsTab extends PluginSettingTab {
           .onChange((new_folder) => {
             this.plugin.settings.scriptFolder = new_folder;
             this.plugin.saveSettings();
-            this.plugin.loadHelperFunctions();
+            this.plugin.loadFns();
           });
       });
 
@@ -96,7 +95,7 @@ class HelperFnsSettingsTab extends PluginSettingTab {
         toggle.setValue(this.plugin.settings.addToApp).onChange((addToApp) => {
           this.plugin.settings.addToApp = addToApp;
           this.plugin.saveSettings();
-          this.plugin.loadHelperFunctions();
+          this.plugin.loadFns();
           // Force refresh
           this.display();
         });
@@ -110,7 +109,7 @@ class HelperFnsSettingsTab extends PluginSettingTab {
           .onChange((appFieldName) => {
             this.plugin.settings.appFieldName = appFieldName;
             this.plugin.saveSettings();
-            this.plugin.loadHelperFunctions();
+            this.plugin.loadFns();
           });
       });
     }
